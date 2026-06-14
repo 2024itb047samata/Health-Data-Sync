@@ -5,6 +5,7 @@
  * Hospital Command Center API
  * OpenAPI spec version: 0.1.0
  */
+import type { PatientJourneyStep } from './patientJourneyStep';
 import type { PatientPriority } from './patientPriority';
 import type { PatientStatus } from './patientStatus';
 
@@ -13,12 +14,29 @@ export interface Patient {
   token: string;
   name: string;
   /** @nullable */
+  nameHindi?: string | null;
+  /** @nullable */
   age?: number | null;
   /** @nullable */
   gender?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  bloodGroup?: string | null;
+  /** @nullable */
+  abhaId?: string | null;
+  /** @nullable */
+  village?: string | null;
+  /** @nullable */
+  district?: string | null;
+  /** @nullable */
+  referredBy?: string | null;
   department: string;
   priority: PatientPriority;
   status: PatientStatus;
+  journeyStep: PatientJourneyStep;
+  /** @nullable */
+  aiSummary?: string | null;
   /** @nullable */
   doctorId?: number | null;
   /** @nullable */

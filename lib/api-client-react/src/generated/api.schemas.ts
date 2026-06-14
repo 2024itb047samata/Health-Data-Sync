@@ -33,17 +33,45 @@ export const PatientStatus = {
   cancelled: 'cancelled',
 } as const;
 
+export type PatientJourneyStep = typeof PatientJourneyStep[keyof typeof PatientJourneyStep];
+
+
+export const PatientJourneyStep = {
+  registered: 'registered',
+  records_uploaded: 'records_uploaded',
+  ai_analyzed: 'ai_analyzed',
+  doctor_assigned: 'doctor_assigned',
+  completed: 'completed',
+} as const;
+
 export interface Patient {
   id: number;
   token: string;
   name: string;
   /** @nullable */
+  nameHindi?: string | null;
+  /** @nullable */
   age?: number | null;
   /** @nullable */
   gender?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  bloodGroup?: string | null;
+  /** @nullable */
+  abhaId?: string | null;
+  /** @nullable */
+  village?: string | null;
+  /** @nullable */
+  district?: string | null;
+  /** @nullable */
+  referredBy?: string | null;
   department: string;
   priority: PatientPriority;
   status: PatientStatus;
+  journeyStep: PatientJourneyStep;
+  /** @nullable */
+  aiSummary?: string | null;
   /** @nullable */
   doctorId?: number | null;
   /** @nullable */
@@ -73,9 +101,23 @@ export const PatientInputPriority = {
 export interface PatientInput {
   name: string;
   /** @nullable */
+  nameHindi?: string | null;
+  /** @nullable */
   age?: number | null;
   /** @nullable */
   gender?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  bloodGroup?: string | null;
+  /** @nullable */
+  abhaId?: string | null;
+  /** @nullable */
+  village?: string | null;
+  /** @nullable */
+  district?: string | null;
+  /** @nullable */
+  referredBy?: string | null;
   department: string;
   priority: PatientInputPriority;
   /** @nullable */
@@ -128,6 +170,10 @@ export interface Doctor {
   name: string;
   specialty: string;
   department: string;
+  /** @nullable */
+  qualification?: string | null;
+  /** @nullable */
+  registrationNo?: string | null;
   status: DoctorStatus;
   /** @nullable */
   currentPatientId?: number | null;

@@ -1,0 +1,1 @@
+- [PulseOS Architecture](pulseos-arch.md) — SSE real-time, AIIMS context, ABHA IDs, patient journey, Indian hospital domain decisions.

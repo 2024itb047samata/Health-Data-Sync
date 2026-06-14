@@ -12,6 +12,10 @@ export interface Doctor {
   name: string;
   specialty: string;
   department: string;
+  /** @nullable */
+  qualification?: string | null;
+  /** @nullable */
+  registrationNo?: string | null;
   status: DoctorStatus;
   /** @nullable */
   currentPatientId?: number | null;

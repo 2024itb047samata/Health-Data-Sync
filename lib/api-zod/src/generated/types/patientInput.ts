@@ -10,9 +10,23 @@ import type { PatientInputPriority } from './patientInputPriority';
 export interface PatientInput {
   name: string;
   /** @nullable */
+  nameHindi?: string | null;
+  /** @nullable */
   age?: number | null;
   /** @nullable */
   gender?: string | null;
+  /** @nullable */
+  phone?: string | null;
+  /** @nullable */
+  bloodGroup?: string | null;
+  /** @nullable */
+  abhaId?: string | null;
+  /** @nullable */
+  village?: string | null;
+  /** @nullable */
+  district?: string | null;
+  /** @nullable */
+  referredBy?: string | null;
   department: string;
   priority: PatientInputPriority;
   /** @nullable */

@@ -2,11 +2,11 @@ import { Router, type IRouter } from "express";
 import { db } from "@workspace/db";
 import { patientsTable, activityTable } from "@workspace/db";
 import { eq, asc } from "drizzle-orm";
+import { broadcast } from "../lib/broadcast";
 
 const router: IRouter = Router();
 
 router.post("/queue/next", async (_req, res) => {
-  // Get next waiting patient — emergencies first, then urgent, then by creation time
   const waiting = await db
     .select()
     .from(patientsTable)
@@ -26,7 +26,7 @@ router.post("/queue/next", async (_req, res) => {
 
   const [called] = await db
     .update(patientsTable)
-    .set({ status: "called", calledAt: new Date() })
+    .set({ status: "called", calledAt: new Date(), journeyStep: "doctor_assigned" })
     .where(eq(patientsTable.id, next.id))
     .returning();
 
@@ -38,6 +38,8 @@ router.post("/queue/next", async (_req, res) => {
     department: called.department,
     priority: called.priority,
   });
+
+  broadcast("queue_updated", { action: "next_called", token: called.token });
 
   res.json({
     patient: {

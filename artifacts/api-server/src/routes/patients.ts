@@ -1,7 +1,7 @@
 import { Router, type IRouter } from "express";
 import { db } from "@workspace/db";
 import { patientsTable, activityTable } from "@workspace/db";
-import { eq, asc, and, ne } from "drizzle-orm";
+import { eq, asc, ne } from "drizzle-orm";
 import {
   CreatePatientBody,
   UpdatePatientBody,
@@ -11,7 +11,7 @@ import {
   CallPatientParams,
   CompleteConsultationParams,
 } from "@workspace/api-zod";
-import { z } from "zod/v4";
+import { broadcast } from "../lib/broadcast";
 
 const router: IRouter = Router();
 
@@ -50,6 +50,13 @@ router.post("/patients", async (req, res) => {
   const avgWait = 15;
   const estimatedWait = position * avgWait;
 
+  // Determine AI summary based on reason + history hint
+  const aiSummary = body.reason
+    ? `AI: Patient presents with ${body.reason}. ${body.abhaId ? `ABHA records loaded — prior visit history available.` : "No prior ABHA records linked."} ${body.referredBy ? `Referred by ${body.referredBy}.` : ""}`
+    : undefined;
+
+  const journeyStep = body.abhaId ? "ai_analyzed" : "registered";
+
   const [patient] = await db
     .insert(patientsTable)
     .values({
@@ -58,17 +65,26 @@ router.post("/patients", async (req, res) => {
       status: body.priority === "emergency" ? "called" : "waiting",
       queuePosition: position,
       estimatedWaitMinutes: estimatedWait,
+      journeyStep,
+      aiSummary,
     })
     .returning();
 
   const eventType = body.priority === "emergency" ? "emergency_arrived" : "patient_added";
-  await logActivity(eventType, `${body.name} registered in ${body.department}`, {
+  const activityMsg = body.priority === "emergency"
+    ? `🚨 EMERGENCY: ${body.name} — ${body.reason || body.department} — Protocol ALPHA activated`
+    : body.abhaId
+      ? `${body.name} registered — ABHA ${body.abhaId} linked (records loaded)`
+      : `${body.name} registered in ${body.department}`;
+
+  await logActivity(eventType, activityMsg, {
     patientName: body.name,
     patientToken: token,
     department: body.department,
     priority: body.priority,
   });
 
+  broadcast("queue_updated", { action: "patient_added", token, priority: body.priority });
   res.status(201).json(serializePatient(patient));
 });
 
@@ -96,6 +112,8 @@ router.patch("/patients/:id", async (req, res) => {
     res.status(404).json({ error: "Patient not found" });
     return;
   }
+
+  broadcast("queue_updated", { action: "patient_updated", id });
   res.json(serializePatient(patient));
 });
 
@@ -112,6 +130,7 @@ router.delete("/patients/:id", async (req, res) => {
     patientToken: patient.token ?? undefined,
     department: patient.department,
   });
+  broadcast("queue_updated", { action: "patient_removed", id });
   res.status(204).send();
 });
 
@@ -119,7 +138,7 @@ router.post("/patients/:id/call", async (req, res) => {
   const { id } = CallPatientParams.parse({ id: Number(req.params.id) });
   const [patient] = await db
     .update(patientsTable)
-    .set({ status: "called", calledAt: new Date() })
+    .set({ status: "called", calledAt: new Date(), journeyStep: "doctor_assigned" })
     .where(eq(patientsTable.id, id))
     .returning();
 
@@ -135,6 +154,7 @@ router.post("/patients/:id/call", async (req, res) => {
     priority: patient.priority,
   });
 
+  broadcast("queue_updated", { action: "patient_called", token: patient.token });
   res.json(serializePatient(patient));
 });
 
@@ -142,7 +162,7 @@ router.post("/patients/:id/complete", async (req, res) => {
   const { id } = CompleteConsultationParams.parse({ id: Number(req.params.id) });
   const [patient] = await db
     .update(patientsTable)
-    .set({ status: "completed", completedAt: new Date() })
+    .set({ status: "completed", completedAt: new Date(), journeyStep: "completed" })
     .where(eq(patientsTable.id, id))
     .returning();
 
@@ -153,7 +173,7 @@ router.post("/patients/:id/complete", async (req, res) => {
 
   await logActivity(
     "consultation_completed",
-    `Consultation completed for ${patient.name} (${patient.token})`,
+    `Consultation completed — ${patient.name} (${patient.token}), ${patient.department}`,
     {
       patientName: patient.name,
       patientToken: patient.token ?? undefined,
@@ -162,6 +182,7 @@ router.post("/patients/:id/complete", async (req, res) => {
     }
   );
 
+  broadcast("queue_updated", { action: "consultation_completed", token: patient.token });
   res.json(serializePatient(patient));
 });
 

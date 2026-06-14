@@ -23,6 +23,7 @@ export * from './insightType';
 export * from './patient';
 export * from './patientInput';
 export * from './patientInputPriority';
+export * from './patientJourneyStep';
 export * from './patientPriority';
 export * from './patientStatus';
 export * from './patientUpdate';

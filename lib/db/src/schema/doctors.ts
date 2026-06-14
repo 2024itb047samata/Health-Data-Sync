@@ -7,6 +7,8 @@ export const doctorsTable = pgTable("doctors", {
   name: text("name").notNull(),
   specialty: text("specialty").notNull(),
   department: text("department").notNull(),
+  qualification: text("qualification"),
+  registrationNo: text("registration_no"),
   status: text("status").notNull().default("available"),
   currentPatientId: integer("current_patient_id"),
   currentPatientName: text("current_patient_name"),

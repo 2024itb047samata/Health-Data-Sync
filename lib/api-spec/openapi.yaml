@@ -334,9 +334,23 @@ components:
           type: string
         name:
           type: string
+        nameHindi:
+          type: ["string", "null"]
         age:
           type: ["integer", "null"]
         gender:
+          type: ["string", "null"]
+        phone:
+          type: ["string", "null"]
+        bloodGroup:
+          type: ["string", "null"]
+        abhaId:
+          type: ["string", "null"]
+        village:
+          type: ["string", "null"]
+        district:
+          type: ["string", "null"]
+        referredBy:
           type: ["string", "null"]
         department:
           type: string
@@ -346,6 +360,11 @@ components:
         status:
           type: string
           enum: [waiting, called, consulting, completed, cancelled]
+        journeyStep:
+          type: string
+          enum: [registered, records_uploaded, ai_analyzed, doctor_assigned, completed]
+        aiSummary:
+          type: ["string", "null"]
         doctorId:
           type: ["integer", "null"]
         doctorName:
@@ -362,16 +381,30 @@ components:
           type: ["string", "null"]
         completedAt:
           type: ["string", "null"]
-      required: [id, token, name, department, priority, status, createdAt]
+      required: [id, token, name, department, priority, status, journeyStep, createdAt]
 
     PatientInput:
       type: object
       properties:
         name:
           type: string
+        nameHindi:
+          type: ["string", "null"]
         age:
           type: ["integer", "null"]
         gender:
+          type: ["string", "null"]
+        phone:
+          type: ["string", "null"]
+        bloodGroup:
+          type: ["string", "null"]
+        abhaId:
+          type: ["string", "null"]
+        village:
+          type: ["string", "null"]
+        district:
+          type: ["string", "null"]
+        referredBy:
           type: ["string", "null"]
         department:
           type: string
@@ -411,6 +444,10 @@ components:
           type: string
         department:
           type: string
+        qualification:
+          type: ["string", "null"]
+        registrationNo:
+          type: ["string", "null"]
         status:
           type: string
           enum: [available, busy, break, offline]
