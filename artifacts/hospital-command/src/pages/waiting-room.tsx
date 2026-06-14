@@ -36,7 +36,7 @@ export default function WaitingRoom() {
         <div className="flex items-center gap-4">
           <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
           <div>
-            <h1 className="text-xl font-bold tracking-widest uppercase text-white">Hospital OS</h1>
+            <h1 className="text-xl font-bold tracking-widest uppercase text-white">PULSE OS</h1>
             <p className="text-[10px] font-mono text-cyan-400 tracking-widest">PATIENT QUEUE DISPLAY v2028</p>
           </div>
         </div>
@@ -187,7 +187,7 @@ export default function WaitingRoom() {
               Est. clear: {format(new Date(data.estimatedClearTime), "HH:mm")}
             </span>
           )}
-          <p className="text-xs font-mono text-muted-foreground tracking-widest uppercase">Hospital AI — Queue Display</p>
+          <p className="text-xs font-mono text-muted-foreground tracking-widest uppercase">PulseOS — Queue Display</p>
         </footer>
       </div>
     </div>

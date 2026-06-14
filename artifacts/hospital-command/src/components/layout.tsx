@@ -33,7 +33,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <LayoutDashboard className="w-4 h-4 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="font-bold text-sm tracking-widest text-primary-foreground uppercase">HOSPITAL OS</h1>
+              <h1 className="font-bold text-sm tracking-widest text-primary-foreground uppercase">PULSE OS</h1>
               <p className="text-[10px] text-cyan-400 font-mono">v2028.1 COMMAND</p>
             </div>
           </div>
