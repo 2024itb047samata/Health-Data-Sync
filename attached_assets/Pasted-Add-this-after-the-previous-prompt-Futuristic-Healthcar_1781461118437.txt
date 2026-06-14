@@ -1,0 +1,173 @@
+Add this after the previous prompt:
+
+Futuristic Healthcare Command Center UI
+
+Transform the entire application into a futuristic AI-powered hospital operating system.
+
+Design Style
+Premium futuristic healthcare dashboard
+Inspired by Tesla, Apple Vision Pro, Iron Man HUD, Linear, and modern medical command centers
+Clean glassmorphism design
+Floating panels
+Soft neon glow effects
+Depth and layering
+Smooth micro-interactions
+High-end SaaS product appearance
+Color System
+
+Maintain hospital trust colors while making them futuristic:
+
+Deep Navy Background (#050816)
+Midnight Blue Panels
+Electric Purple Accents
+Neon Cyan Highlights
+Emerald Success States
+Soft Orange Warnings
+Red Emergency Alerts
+
+Avoid bright childish colors.
+
+Dashboard Redesign
+
+Replace basic cards with advanced analytics panels.
+
+Show:
+
+Live Queue Status
+Current Patient
+Queue Velocity
+Wait Time Prediction
+AI Queue Health Score
+Emergency Alerts
+Doctor Availability
+Department Load
+
+Each card should have:
+
+Animated counters
+Gradient borders
+Hover glow effects
+Floating glass appearance
+AI Command Center
+
+Add a futuristic AI Assistant panel:
+
+"Hospital AI"
+
+Display insights such as:
+
+Queue congestion detected
+Expected rush in 30 minutes
+Consultation times increasing
+Department overload warning
+Staffing recommendations
+
+Show these as AI-generated insights cards.
+
+Real-Time Activity Feed
+
+Create a live event stream:
+
+Patient Added
+Patient Called
+Consultation Started
+Consultation Completed
+Emergency Patient Arrived
+
+Display timestamps and smooth animations.
+
+Futuristic Waiting Room Display
+
+Convert waiting room into a digital airport-style information board.
+
+Display:
+
+NOW SERVING
+NEXT TOKENS
+Estimated Waiting Time
+Doctor Status
+Live Clock
+Queue Progress
+
+Use large typography and animated transitions.
+
+Advanced Animations
+
+Implement:
+
+Smooth page transitions
+Animated counters
+Floating elements
+Pulse effects for active token
+Glow effects for emergency patients
+Slide-in notifications
+Live queue movement animations
+
+Animations should be professional and performant.
+
+AI Wait Time Prediction
+
+Replace static calculations with predictive estimates.
+
+Display:
+
+Confidence percentage
+Predicted call time
+Queue trend indicator
+Waiting time accuracy score
+Modern Charts
+
+Use futuristic interactive charts:
+
+Queue Heatmap
+Department Load Radar
+Hourly Traffic Trend
+Completion Analytics
+Wait Time Forecast
+Digital Twin Visualization
+
+Add a hospital status overview panel showing:
+
+Active Patients
+Waiting Patients
+Doctors Available
+Queue Efficiency
+System Health
+
+Represent this visually with futuristic indicators.
+
+Smart Notifications
+
+Create command-center style alerts:
+
+Emergency Patient Added
+Queue Delay Detected
+Doctor Available
+Consultation Running Long
+
+Display as animated notification banners.
+
+Premium Details
+Glassmorphism throughout
+Backdrop blur effects
+Gradient borders
+Neon highlights
+Animated background particles
+Subtle grid background
+Dynamic lighting effects
+Floating action buttons
+Premium typography
+Empty States
+
+When no patients exist:
+
+Show a futuristic illustration with:
+
+"Queue Ready"
+"Awaiting New Patients"
+
+instead of empty tables.
+
+Final Goal
+
+Make the application look like a 2028 AI-powered Smart Hospital Command Center rather than a college project. Every screen should feel deployable in a premium private hospital, combining real-time operations, AI intelligence, futuristic analytics, and beautiful modern design.

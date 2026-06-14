@@ -1,22 +1,34 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Hospital Command Center API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: patients
+    description: Patient queue management
+  - name: doctors
+    description: Doctor management
+  - name: departments
+    description: Department management
+  - name: queue
+    description: Queue operations
+  - name: activity
+    description: Activity feed
+  - name: insights
+    description: AI insights
+  - name: stats
+    description: Dashboard statistics
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +36,279 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /patients:
+    get:
+      operationId: listPatients
+      tags: [patients]
+      summary: List all patients in queue
+      responses:
+        "200":
+          description: List of patients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Patient"
+    post:
+      operationId: createPatient
+      tags: [patients]
+      summary: Add a new patient to the queue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatientInput"
+      responses:
+        "201":
+          description: Patient created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+
+  /patients/{id}:
+    get:
+      operationId: getPatient
+      tags: [patients]
+      summary: Get a patient by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Patient found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: updatePatient
+      tags: [patients]
+      summary: Update patient status or info
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatientUpdate"
+      responses:
+        "200":
+          description: Patient updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+    delete:
+      operationId: deletePatient
+      tags: [patients]
+      summary: Remove a patient from the queue
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Patient removed
+
+  /patients/{id}/call:
+    post:
+      operationId: callPatient
+      tags: [patients]
+      summary: Call a patient to the consultation room
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Patient called
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+
+  /patients/{id}/complete:
+    post:
+      operationId: completeConsultation
+      tags: [patients]
+      summary: Mark consultation as complete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Consultation completed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+
+  /doctors:
+    get:
+      operationId: listDoctors
+      tags: [doctors]
+      summary: List all doctors
+      responses:
+        "200":
+          description: List of doctors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Doctor"
+    post:
+      operationId: createDoctor
+      tags: [doctors]
+      summary: Add a doctor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DoctorInput"
+      responses:
+        "201":
+          description: Doctor created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Doctor"
+
+  /doctors/{id}:
+    patch:
+      operationId: updateDoctor
+      tags: [doctors]
+      summary: Update doctor status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DoctorUpdate"
+      responses:
+        "200":
+          description: Doctor updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Doctor"
+
+  /departments:
+    get:
+      operationId: listDepartments
+      tags: [departments]
+      summary: List all departments
+      responses:
+        "200":
+          description: List of departments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Department"
+
+  /queue/next:
+    post:
+      operationId: callNextPatient
+      tags: [queue]
+      summary: Call the next patient in queue
+      responses:
+        "200":
+          description: Next patient called or queue empty
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueueNextResult"
+
+  /activity:
+    get:
+      operationId: listActivity
+      tags: [activity]
+      summary: Get recent activity feed
+      responses:
+        "200":
+          description: Recent activity events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityEvent"
+
+  /insights:
+    get:
+      operationId: listInsights
+      tags: [insights]
+      summary: Get AI-generated queue insights
+      responses:
+        "200":
+          description: AI insights
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Insight"
+
+  /stats:
+    get:
+      operationId: getDashboardStats
+      tags: [stats]
+      summary: Get dashboard statistics
+      responses:
+        "200":
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
+  /waiting-room:
+    get:
+      operationId: getWaitingRoom
+      tags: [stats]
+      summary: Get waiting room display data
+      responses:
+        "200":
+          description: Waiting room data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WaitingRoomData"
+
 components:
   schemas:
     HealthStatus:
@@ -31,6 +316,268 @@ components:
       properties:
         status:
           type: string
-      required:
-        - status
+      required: [status]
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
+    Patient:
+      type: object
+      properties:
+        id:
+          type: integer
+        token:
+          type: string
+        name:
+          type: string
+        age:
+          type: ["integer", "null"]
+        gender:
+          type: ["string", "null"]
+        department:
+          type: string
+        priority:
+          type: string
+          enum: [normal, urgent, emergency]
+        status:
+          type: string
+          enum: [waiting, called, consulting, completed, cancelled]
+        doctorId:
+          type: ["integer", "null"]
+        doctorName:
+          type: ["string", "null"]
+        reason:
+          type: ["string", "null"]
+        estimatedWaitMinutes:
+          type: ["integer", "null"]
+        queuePosition:
+          type: ["integer", "null"]
+        createdAt:
+          type: string
+        calledAt:
+          type: ["string", "null"]
+        completedAt:
+          type: ["string", "null"]
+      required: [id, token, name, department, priority, status, createdAt]
+
+    PatientInput:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: ["integer", "null"]
+        gender:
+          type: ["string", "null"]
+        department:
+          type: string
+        priority:
+          type: string
+          enum: [normal, urgent, emergency]
+        reason:
+          type: ["string", "null"]
+        doctorId:
+          type: ["integer", "null"]
+      required: [name, department, priority]
+
+    PatientUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        priority:
+          type: string
+          enum: [normal, urgent, emergency]
+        status:
+          type: string
+          enum: [waiting, called, consulting, completed, cancelled]
+        doctorId:
+          type: ["integer", "null"]
+        department:
+          type: string
+
+    Doctor:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        specialty:
+          type: string
+        department:
+          type: string
+        status:
+          type: string
+          enum: [available, busy, break, offline]
+        currentPatientId:
+          type: ["integer", "null"]
+        currentPatientName:
+          type: ["string", "null"]
+        patientsSeenToday:
+          type: integer
+        avgConsultMinutes:
+          type: number
+      required: [id, name, specialty, department, status, patientsSeenToday, avgConsultMinutes]
+
+    DoctorInput:
+      type: object
+      properties:
+        name:
+          type: string
+        specialty:
+          type: string
+        department:
+          type: string
+      required: [name, specialty, department]
+
+    DoctorUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [available, busy, break, offline]
+
+    Department:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        code:
+          type: string
+        waitingCount:
+          type: integer
+        activeCount:
+          type: integer
+        doctorsAvailable:
+          type: integer
+        avgWaitMinutes:
+          type: number
+        loadLevel:
+          type: string
+          enum: [low, moderate, high, critical]
+      required: [id, name, code, waitingCount, activeCount, doctorsAvailable, avgWaitMinutes, loadLevel]
+
+    QueueNextResult:
+      type: object
+      properties:
+        patient:
+          $ref: "#/components/schemas/Patient"
+        message:
+          type: string
+        queueEmpty:
+          type: boolean
+      required: [message, queueEmpty]
+
+    ActivityEvent:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [patient_added, patient_called, consultation_started, consultation_completed, emergency_arrived, doctor_available, doctor_busy]
+        message:
+          type: string
+        patientName:
+          type: ["string", "null"]
+        patientToken:
+          type: ["string", "null"]
+        department:
+          type: ["string", "null"]
+        priority:
+          type: ["string", "null"]
+        timestamp:
+          type: string
+      required: [id, type, message, timestamp]
+
+    Insight:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [warning, info, critical, success]
+        title:
+          type: string
+        message:
+          type: string
+        department:
+          type: ["string", "null"]
+        confidence:
+          type: ["number", "null"]
+        createdAt:
+          type: string
+      required: [id, type, title, message, createdAt]
+
+    DashboardStats:
+      type: object
+      properties:
+        totalWaiting:
+          type: integer
+        totalActive:
+          type: integer
+        totalCompleted:
+          type: integer
+        doctorsAvailable:
+          type: integer
+        doctorsTotal:
+          type: integer
+        queueVelocity:
+          type: number
+        avgWaitMinutes:
+          type: number
+        aiHealthScore:
+          type: integer
+        emergencyCount:
+          type: integer
+        urgentCount:
+          type: integer
+        peakHourPrediction:
+          type: ["string", "null"]
+        systemEfficiency:
+          type: number
+      required: [totalWaiting, totalActive, totalCompleted, doctorsAvailable, doctorsTotal, queueVelocity, avgWaitMinutes, aiHealthScore, emergencyCount, urgentCount, systemEfficiency]
+
+    WaitingRoomData:
+      type: object
+      properties:
+        nowServing:
+          type: array
+          items:
+            $ref: "#/components/schemas/WaitingRoomToken"
+        nextTokens:
+          type: array
+          items:
+            $ref: "#/components/schemas/WaitingRoomToken"
+        currentTime:
+          type: string
+        totalInQueue:
+          type: integer
+        estimatedClearTime:
+          type: ["string", "null"]
+      required: [nowServing, nextTokens, currentTime, totalInQueue]
+
+    WaitingRoomToken:
+      type: object
+      properties:
+        token:
+          type: string
+        name:
+          type: string
+        department:
+          type: string
+        doctorName:
+          type: ["string", "null"]
+        status:
+          type: string
+        estimatedMinutes:
+          type: ["integer", "null"]
+      required: [token, name, department, status]
