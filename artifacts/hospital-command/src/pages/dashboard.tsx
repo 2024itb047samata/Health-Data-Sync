@@ -64,22 +64,22 @@ export default function Dashboard() {
   const criticalInsights = insights?.filter((i) => i.type === "critical") ?? [];
 
   return (
-    <div className="space-y-6 max-w-[1600px] mx-auto">
+    <div className="space-y-6 max-w-[1600px] mx-auto px-4 lg:px-0">
       {/* Header */}
       <header className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-start">
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <h1 className="text-3xl font-bold text-white tracking-tight">Command Center</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Command Center</h1>
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           </div>
-          <div className="flex flex-wrap items-center gap-3">div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <p className="text-muted-foreground font-mono text-xs">AIIMS NEW DELHI — OPD BLOCK B</p>
             <span className="text-white/20">|</span>
             <MapPin className="w-3 h-3 text-cyan-400" />
             <p className="text-muted-foreground font-mono text-xs">SECTOR 12, ANSARI NAGAR</p>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => setLang(l => l === "en" ? "hi" : "en")}
             className="px-3 py-1.5 rounded text-xs font-mono border border-white/10 text-muted-foreground hover:border-cyan-500/40 hover:text-cyan-400 transition-colors"
@@ -130,7 +130,7 @@ export default function Dashboard() {
             {patients?.length ?? 0} active patients across {JOURNEY_STEPS.length} stages
           </span>
         </div>
-        <div className="flex items-start gap-0 overflow-x-auto pb-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {JOURNEY_STEPS.map((step, i) => {
             const Icon = step.icon;
             const count = patients?.filter((p) => p.journeyStep === step.key).length ?? 0;
@@ -144,7 +144,7 @@ export default function Dashboard() {
             };
             const colorClass = glowMap[step.color];
             return (
-              <div key={step.key} className="flex items-center flex-1 min-w-[160px]">
+              <div key={step.key} className="flex items-center">
                 <div className={cn("flex-1 p-4 rounded-lg border transition-all", colorClass, count > 0 ? "opacity-100" : "opacity-40")}>
                   <div className="flex items-center justify-between mb-2">
                     <Icon className="w-4 h-4" />
@@ -185,7 +185,7 @@ export default function Dashboard() {
       </div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         <StatCard title="Waiting" value={stats?.totalWaiting} icon={Users} loading={statsLoading} glowColor="cyan" />
         <StatCard title="Consulting" value={stats?.totalActive} icon={Activity} loading={statsLoading} glowColor="purple" />
         <StatCard title="Avg Wait" value={`${stats?.avgWaitMinutes ?? 0}m`} icon={Clock} loading={statsLoading} />
@@ -203,7 +203,7 @@ export default function Dashboard() {
               Department Load
               <span className="text-xs font-mono text-muted-foreground ml-auto">AIIMS OPD Block B</span>
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
               {deptsLoading
                 ? Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-32 rounded-xl" />)
                 : depts?.map((dept) => <DepartmentCard key={dept.id} dept={dept} />)}
@@ -227,7 +227,7 @@ export default function Dashboard() {
 
         {/* Right: Live Activity Feed */}
         <div>
-          <Card className="glass-panel border-white/10 h-[calc(100vh-14rem)] flex flex-col">
+          <Card className="glass-panel border-white/10 min-h-[400px] lg:h-[calc(100vh-14rem)] flex flex-col">
             <CardHeader className="border-b border-white/5 pb-4 flex-shrink-0">
               <CardTitle className="text-base font-semibold flex items-center gap-2">
                 <Activity className="w-4 h-4 text-cyan-400" />

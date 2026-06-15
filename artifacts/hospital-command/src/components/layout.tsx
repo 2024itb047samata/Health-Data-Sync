@@ -4,6 +4,7 @@ import { useGetDashboardStats } from "@workspace/api-client-react";
 import { cn } from "@/lib/utils";
 import { useRealtime } from "@/hooks/useRealtime";
 
+
 export function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   useRealtime();
@@ -27,7 +28,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <div className="absolute inset-0 floating-particles mix-blend-screen pointer-events-none" />
 
       {/* Sidebar */}
-      <aside className="w-64 border-r border-border glass-panel relative z-10 flex flex-col flex-shrink-0">
+      <aside className="hidden lg:flex w-64 border-r border-border glass-panel relative z-10 flex-col flex-shrink-0">
         {/* Logo + Branding */}
         <div className="p-5 border-b border-border">
           <div className="flex items-center gap-3">
@@ -99,8 +100,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col relative z-10 h-screen overflow-hidden">
-        <div className="flex-1 overflow-auto p-7 relative">
+      <main className="w-full flex-1 flex flex-col relative z-10 min-w-0">
+        <div className="flex-1 overflow-auto p-4 md:p-7 relative">
           {children}
         </div>
       </main>
