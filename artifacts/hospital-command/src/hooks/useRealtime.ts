@@ -5,8 +5,11 @@ export function useRealtime() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-    const url = `${base}/api/events`;
+    const apiBase = (import.meta.env.VITE_API_URL as string | undefined)
+      ? (import.meta.env.VITE_API_URL as string).replace(/\/+$/, "")
+      : import.meta.env.BASE_URL.replace(/\/+$/, "");
+
+    const url = `${apiBase}/api/events`;
 
     let source: EventSource;
     let retryTimer: ReturnType<typeof setTimeout>;

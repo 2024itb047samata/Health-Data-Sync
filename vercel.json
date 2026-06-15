@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm i -g pnpm && pnpm install --frozen-lockfile && pnpm --filter @workspace/api-spec run codegen && pnpm --filter @workspace/hospital-command run build",
+  "outputDirectory": "artifacts/hospital-command/dist/public",
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "env": {
+    "BASE_PATH": "/"
+  }
+}
