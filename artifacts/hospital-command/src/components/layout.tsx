@@ -40,7 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </svg>
             </div>
             <div>
-              <h1 className="font-bold text-sm tracking-widest text-white uppercase">PULSE OS</h1>
+              <h1 className="font-bold text-sm tracking-widest text-white uppercase">PULSE OS TEST123</h1>
               <p className="text-[9px] text-cyan-400 font-mono tracking-wider">v2028.1 COMMAND</p>
             </div>
           </div>
