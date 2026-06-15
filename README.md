@@ -78,33 +78,6 @@ https://pulseos-api.onrender.com
 ### Deployment
 - Vercel (Frontend)
 - Render (Backend + PostgreSQL)
-
----
-
-## 📂 Project Structure
-
-```bash
-Health-Data-Sync/
-│
-├── artifacts/
-│   ├── api-server/
-│   │   ├── src/
-│   │   │   ├── routes/
-│   │   │   ├── db/
-│   │   │   └── server.ts
-│   │
-│   └── hospital-command/
-│       ├── src/
-│       │   ├── components/
-│       │   ├── pages/
-│       │   ├── hooks/
-│       │   └── lib/
-│       │
-│       └── public/
-│
-└── README.md
-```
-
 ---
 
 ## ⚙️ Environment Variables
