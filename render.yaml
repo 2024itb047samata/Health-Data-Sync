@@ -5,7 +5,7 @@ services:
     plan: free
     buildCommand: npm i -g pnpm && pnpm install --frozen-lockfile && pnpm --filter @workspace/api-server run build
     startCommand: node --enable-source-maps artifacts/api-server/dist/index.mjs
-    healthCheckPath: /api/healthz
+    healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production

@@ -1,0 +1,78 @@
+Analyze the entire repository and prepare it for production deployment.
+
+This project is a pnpm monorepo with:
+
+* Frontend: artifacts/hospital-command (React + Vite)
+* Backend: artifacts/api-server (Express + TypeScript)
+* Shared packages in lib/*
+
+Tasks:
+
+1. Deployment Readiness
+
+* Audit the frontend and backend for deployment issues.
+* Identify all required environment variables.
+* Create .env.example files for both frontend and backend.
+* Ensure the backend uses process.env.PORT correctly for Render deployment.
+* Ensure the frontend uses environment variables (e.g. VITE_API_URL) instead of localhost URLs.
+
+2. Frontend Deployment (Vercel)
+
+* Configure the frontend for Vercel deployment.
+* Verify build output is generated in dist.
+* Remove any hardcoded localhost API endpoints.
+* Create a vercel.json if needed.
+* Document all required Vercel settings.
+
+3. Backend Deployment (Render)
+
+* Configure the Express backend for Render deployment.
+* Verify startup command works in production.
+* Ensure database connection uses DATABASE_URL.
+* Add health check endpoint:
+  GET /health
+  Response:
+  {
+  "status": "ok"
+  }
+
+4. Monorepo Improvements
+
+* Ensure workspace dependencies resolve correctly in production.
+* Verify pnpm workspace configuration.
+* Fix any build issues caused by shared packages.
+* Make build scripts production-safe.
+
+5. Remove Replit-Specific Artifacts
+
+* Remove Replit-only files, dependencies, and configurations that are unnecessary in production.
+* Remove Replit branding from the application.
+* Keep functionality unchanged.
+
+6. Deployment Documentation
+   Create a DEPLOYMENT.md file containing:
+
+* Render backend deployment steps
+* Vercel frontend deployment steps
+* Required environment variables
+* Build commands
+* Start commands
+* Common troubleshooting steps
+
+7. Final Validation
+
+* Run type checks.
+* Run production builds.
+* Fix all build errors.
+* Ensure the repository can be deployed to:
+  Frontend → Vercel
+  Backend → Render
+  Database → PostgreSQL
+
+At the end, provide:
+
+1. All changes made.
+2. Required environment variables.
+3. Exact Vercel configuration.
+4. Exact Render configuration.
+5. Any remaining manual steps.
