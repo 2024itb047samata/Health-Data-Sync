@@ -30,12 +30,22 @@ async function logActivity(
 }
 
 router.get("/patients", async (req, res) => {
-  const patients = await db
-    .select()
-    .from(patientsTable)
-    .where(ne(patientsTable.status, "completed"))
-    .orderBy(asc(patientsTable.createdAt));
-  res.json(patients.map(serializePatient));
+  try {
+    const patients = await db
+      .select()
+      .from(patientsTable)
+      .where(ne(patientsTable.status, "completed"))
+      .orderBy(asc(patientsTable.createdAt));
+
+    res.json(patients.map(serializePatient));
+  } catch (err) {
+    console.error("PATIENTS ERROR:", err);
+
+    res.status(500).json({
+      error: String(err),
+      details: err,
+    });
+  }
 });
 
 router.post("/patients", async (req, res) => {
