@@ -66,13 +66,13 @@ export default function Dashboard() {
   return (
     <div className="space-y-6 max-w-[1600px] mx-auto">
       {/* Header */}
-      <header className="flex justify-between items-start">
+      <header className="flex flex-col gap-4 lg:flex-row lg:justify-between lg:items-start">
         <div>
           <div className="flex items-center gap-3 mb-1">
             <h1 className="text-3xl font-bold text-white tracking-tight">Command Center</h1>
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">div className="flex items-center gap-3">
             <p className="text-muted-foreground font-mono text-xs">AIIMS NEW DELHI — OPD BLOCK B</p>
             <span className="text-white/20">|</span>
             <MapPin className="w-3 h-3 text-cyan-400" />
