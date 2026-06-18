@@ -9,7 +9,7 @@ Built for modern healthcare systems, PulseOS combines AI-driven insights, live p
 ## 🚀 Live Demo
 
 Frontend:
-https://health-data-sync.vercel.app
+https://health-data-sync.vercel.app/pulseos-landing.html
 
 Backend API:
 https://pulseos-api.onrender.com
